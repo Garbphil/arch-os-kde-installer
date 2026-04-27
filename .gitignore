@@ -10,3 +10,4 @@ installer.conf.old
 installer.conf.new
 installer.log
 installer.log.old
+.github/workflows/
