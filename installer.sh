@@ -1098,7 +1098,7 @@ exec_install_desktop() {
             if [ "$ARCH_OS_DESKTOP_EXTRAS_ENABLED" = "true" ]; then
 
                 # KDE Plasma base extras
-                packages+=(kde-applications-meta plasma-browser-integration kde-gtk-config breeze-gtk breeze kde-breeze kate kwrite dolphin konsole gwenview spectacle kcalc kdenlive ark gparted kolourpaint ksystemlog khelpcenter kcmutils kaccounts-integration kaccounts-providers)
+                packages+=(kde-applications-meta plasma-browser-integration kwrite kdenlive)
 
                 # KDE Wayland screensharing, flatpak & pipewire support
                 packages+=(xdg-utils xdg-desktop-portal xdg-desktop-portal-kde)
@@ -1140,7 +1140,7 @@ exec_install_desktop() {
                 packages+=(ttf-firacode-nerd ttf-nerd-fonts-symbols ttf-font-awesome noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-liberation ttf-dejavu adobe-source-sans-fonts adobe-source-serif-fonts)
 
                 # Theming
-                packages+=(breeze breeze-gtk kde-gtk-config papirus-icon-theme catppuccin-kde)
+                packages+=(papirus-icon-theme catppuccin-kde)
 
                 # Phone integration
                 packages+=(kdeconnect)
@@ -1162,13 +1162,9 @@ exec_install_desktop() {
                 chroot_pacman_remove minuet || true
                 chroot_pacman_remove dragon || true
                 chroot_pacman_remove elisa || true
-                chroot_pacman_remove kaddressbook || true
                 chroot_pacman_remove kontact || true
-                chroot_pacman_remove korganizer || true
-                chroot_pacman_remove akregator || true
                 chroot_pacman_remove ktorrent || true
                 chroot_pacman_remove kmail || true
-                chroot_pacman_remove kopete || true
             fi
 
             # Add user to other useful groups (https://wiki.archlinux.org/title/Users_and_groups#User_groups)
@@ -1199,6 +1195,10 @@ exec_install_desktop() {
             # GnuPG integration (https://wiki.archlinux.org/title/KDE_Wallet#GnuPG_integration)
             mkdir -p "/mnt/home/${ARCH_OS_USERNAME}/.gnupg"
             echo 'pinentry-program /usr/bin/pinentry-qt' >"/mnt/home/${ARCH_OS_USERNAME}/.gnupg/gpg-agent.conf"
+
+            # Install & enable KDE Wallet SSH agent
+            chroot_pacman_install kwallet-pam kwalletmanager ssh-agent || true
+            arch-chroot /mnt systemctl enable --user ssh-agent.service
 
             # Set environment
             mkdir -p "/mnt/home/${ARCH_OS_USERNAME}/.config/environment.d/"
@@ -1327,14 +1327,23 @@ exec_install_desktop() {
             arch-chroot /mnt mkdir -p "/home/${ARCH_OS_USERNAME}/.config/systemd/user/sockets.target.wants"
             arch-chroot /mnt ln -s "/usr/lib/systemd/user/pipewire.socket" "/home/${ARCH_OS_USERNAME}/.config/systemd/user/sockets.target.wants/pipewire.socket"
             arch-chroot /mnt ln -s "/usr/lib/systemd/user/pipewire-pulse.socket" "/home/${ARCH_OS_USERNAME}/.config/systemd/user/sockets.target.wants/pipewire-pulse.socket"
-            arch-chroot /mnt ln -s "/usr/lib/systemd/user/ssh-agent.service" "/home/${ARCH_OS_USERNAME}/.config/systemd/user/sockets.target.wants/ssh-agent.service"
+            arch-chroot /mnt ln -s "/usr/lib/systemd/user/ssh-agent.service" "/home/${ARCH_OS_USERNAME}/.config/systemd/user/default.target.wants/ssh-agent.service"
             arch-chroot /mnt mkdir -p "/home/${ARCH_OS_USERNAME}/.config/systemd/user/pipewire.service.wants"
             arch-chroot /mnt ln -s "/usr/lib/systemd/user/wireplumber.service" "/home/${ARCH_OS_USERNAME}/.config/systemd/user/pipewire-session-manager.service"
             arch-chroot /mnt ln -s "/usr/lib/systemd/user/wireplumber.service" "/home/${ARCH_OS_USERNAME}/.config/systemd/user/pipewire.service.wants/wireplumber.service"
             arch-chroot /mnt chown -R "$ARCH_OS_USERNAME":"$ARCH_OS_USERNAME" "/home/${ARCH_OS_USERNAME}/.config/systemd/"
 
-            # Enhance PAM (fix keyring issue for relogin): add try_first_pass
-            sed -i 's/auth\s\+optional\s\+pam_kwallet5\.so$/& try_first_pass/' /mnt/etc/pam.d/sddm /mnt/etc/pam.d/sddm-autologin || true
+            # Enhance PAM (fix keyring issue for relogin): add try_first_pass for kwallet
+            for pam_file in sddm sddm-autologin; do
+                if [ -f "/mnt/etc/pam.d/${pam_file}" ]; then
+                    if grep -q 'pam_kwallet5.so' "/mnt/etc/pam.d/${pam_file}" 2>/dev/null; then
+                        sed -i 's/auth\s\+optional\s\+pam_kwallet5\.so$/& try_first_pass/' "/mnt/etc/pam.d/${pam_file}"
+                    else
+                        # Add kwallet auth line if missing
+                        sed -i '/^-auth/a auth            optional        pam_kwallet5.so try_first_pass' "/mnt/etc/pam.d/${pam_file}"
+                    fi
+                fi
+            done
 
             # Create users applications dir
             mkdir -p "/mnt/home/${ARCH_OS_USERNAME}/.local/share/applications"
