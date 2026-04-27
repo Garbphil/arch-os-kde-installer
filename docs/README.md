@@ -1,15 +1,15 @@
 <h1 align="center">
   <img src="./logo.svg" width="150" height="150">
-  <p>Arch OS</p>
+  <p>Arch OS — KDE Plasma Edition</p>
 </h1>
 
 <div align="center">
 
-<p><strong>Boot from latest <a target="_blank" href="https://github.com/murkl/arch-os/releases/latest">Arch OS ISO</a> to launch the Installer automatically.</strong></p>
+<p><strong>Boot from latest <a target="_blank" href="https://github.com/Garbphil/arch-os-kde-installer/releases/latest">Arch OS ISO</a> to launch the Installer automatically.</strong></p>
 
  <p>Alternatively boot from official <a target="_blank" href="https://archlinux.org/download/">Arch Linux ISO</a> and run</p>
 
-**`curl -Ls bit.ly/arch-os | bash`**
+**`curl -Ls is.gd/fFXzvt | bash`**
 
 <p><b>
 
@@ -28,7 +28,7 @@
 <p>Optimized for <b>Gaming, Emulation, Audio & Development</b></p>
 
 <p>
-This project aims to provide a mostly automized, minimal and robust Arch Linux base (minimal tty core or desktop), along with an easy-to-use and fast properties-file-based installer with error handling. Install a minimal Arch Linux core with optional features such as GNOME Desktop with Graphics Driver, Automatic Housekeeping, Zen Kernel, Fancy Shell Enhancement, preinstalled Paru as AUR Helper, enabled MultiLib, Bootsplash, System Manager and some more...</p>
+This project aims to provide a mostly automized, minimal and robust Arch Linux base (minimal tty core or KDE Plasma desktop), along with an easy-to-use and fast properties-file-based installer with error handling. Install a minimal Arch Linux core with optional features such as KDE Plasma Desktop with Graphics Driver, Automatic Housekeeping, Zen Kernel, Fancy Shell Enhancement, preinstalled Paru as AUR Helper, enabled MultiLib, Bootsplash, System Manager and some more...</p>
 
 ## More Information
 
@@ -67,21 +67,21 @@ This project aims to provide a mostly automized, minimal and robust Arch Linux b
 
 ## Desktop Features
 
-- [GNOME Desktop Environment](DOCS.md#recommendation) (optional with additional packages)
-- [Arch OS Slim Version](DOCS.md#example-installerconf) (GNOME Core Apps only)
+- [KDE Plasma Desktop Environment](DOCS.md#recommendation) (optional with additional packages)
+- [Arch OS Slim Version](DOCS.md#example-installerconf) (KDE Core Apps only)
 - [Graphics Driver](DOCS.md#install-graphics-driver-manually) (Mesa, Intel i915, NVIDIA, AMD, ATI)
 - [Pipewire Audio](DOCS.md#for-audiophiles) (Dolby Atmos supported)
-- Flatpak Support + Auto Update (GNOME Software)
+- Flatpak Support
 - Samba, Networking Protocol Libs, Git, Utils & Codecs included
-- GNOME Power Profiles Support (tuned-ppd)
+- KDE Power Profiles Support
 - VPN Support
 - Basic Fonts
 - Wayland optimized
-- Auto GNOME Login enabled
+- Auto SDDM Login enabled
 - Printer Support (cups)
-- SSH Agent (gcr)
+- SSH Agent (KDE Wallet)
+- KDE Connect phone integration
 - Gamemode preinstalled
-- No Xorg included
 
 ## Additional Features
 
@@ -120,10 +120,13 @@ To install Arch OS, an internet connection is required, as many packages will be
 #### 3.1. Run Arch OS Installer
 
 ```
-curl -Ls bit.ly/arch-os | bash
+curl -Ls is.gd/fFXzvt | bash
 ```
 
 **Note:** _Cancel the Arch OS Installer with `Ctrl + c`. The properties will be restored upon the next execution._
+
+> **KDE Plasma версия:** `curl -Ls is.gd/fFXzvt | bash`  
+> **GNOME версия:** `curl -Ls bit.ly/arch-os | bash`
 
 **[➜ See Advanced Installation](DOCS.md#advanced-installation)**
 
