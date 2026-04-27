@@ -32,7 +32,7 @@
 curl -Ls is.gd/fFXzvt | bash
 ```
 
-Или скачайте готовый ISO с **[релизов](https://github.com/Garbphil/arch-os-kde-installer/releases/latest)**.
+
 
 ---
 
