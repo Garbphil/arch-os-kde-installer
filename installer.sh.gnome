@@ -9,6 +9,8 @@
 # AUTOR:    murkl
 # ORIGIN:   Germany
 # LICENCE:  GPL 2.0
+# FORK:     https://github.com/Garbphil/arch-os-kde-installer
+# ARCHIVE:  Original GNOME Desktop Edition
 
 # CONFIG
 set -o pipefail # A pipeline error results in the error status of the entire pipeline
@@ -2145,10 +2147,10 @@ process_return() {
 print_header() {
     local title="$1"
     clear && gum_foreground '
- █████  ██████   ██████ ██   ██      ██████  ███████ 
-██   ██ ██   ██ ██      ██   ██     ██    ██ ██      
-███████ ██████  ██      ███████     ██    ██ ███████ 
-██   ██ ██   ██ ██      ██   ██     ██    ██      ██ 
+ █████  ██████   ██████ ██   ██      ██████  ███████
+██   ██ ██   ██ ██      ██   ██     ██    ██ ██
+███████ ██████  ██      ███████     ██    ██ ███████
+██   ██ ██   ██ ██      ██   ██     ██    ██      ██
 ██   ██ ██   ██  ██████ ██   ██      ██████  ███████'
     local header_version="               v. ${VERSION}"
     [ "$DEBUG" = "true" ] && header_version="               d. ${VERSION}"

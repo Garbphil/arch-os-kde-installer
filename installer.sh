@@ -9,6 +9,8 @@
 # AUTOR:    murkl
 # ORIGIN:   Germany
 # LICENCE:  GPL 2.0
+# FORK:     https://github.com/Garbphil/arch-os-kde-installer
+# ADAPTED:  KDE Plasma Desktop Edition
 
 # CONFIG
 set -o pipefail # A pipeline error results in the error status of the entire pipeline
